@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: new-dancecamp
+spec:
+  selector:
+    app: new-dancecamp
+  type: NodePort
+  ports:
+    - name: http
+      port: 8200
+      nodePort: 31000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: new-dancecamp
+spec:
+  selector:
+    matchLabels:
+      app: new-dancecamp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: new-dancecamp
+    spec:
+      containers:
+        - name: server
+          image: 17501750/new-dancecamp
+          ports:
+            - name: http
+              containerPort: 8200
+
+---
